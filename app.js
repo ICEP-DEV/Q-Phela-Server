@@ -1,15 +1,15 @@
-const mysql = require('mysql2');
+const express = require('express');
+const mysql = require('mysql');
 
-// MySQL Connection Configuration
 const db = mysql.createConnection({
-  host: "localhost",         // Replace with the actual host if hosted remotely
-  user: "root",
-  password: "",
-  database: "q-phela database"
+  host: "localhost",         
+  user: 'root',
+  password: '',
+  database: 'q-phela database'
 });
 
 // Connecting to MySQL
-db.connect(err => {
+/*db.connect(err => {
   if (err) {
     console.error('MySQL connection error:', err);
   } else {
@@ -17,4 +17,17 @@ db.connect(err => {
   }
 });
 
-module.exports = db;
+module.exports = db;*/ 
+app.get('/', (re, res)=> {
+	return res.json("from server");
+})
+app.get('/users', (req, res)=> {
+	const sql="select from citizen";
+	db.query(sql, (err, data)=>;{
+		if (err) return res.json(err);
+	return res.json(data);
+})
+})
+app.listen(8080, ()=> {
+	console.log("listening");
+})
