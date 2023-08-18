@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-
+const app = express();
 const db = mysql.createConnection({
   host: "localhost",         
   user: 'root',
@@ -9,7 +9,7 @@ const db = mysql.createConnection({
 });
 
 // Connecting to MySQL
-/*db.connect(err => {
+db.connect(err => {
   if (err) {
     console.error('MySQL connection error:', err);
   } else {
@@ -17,17 +17,21 @@ const db = mysql.createConnection({
   }
 });
 
-module.exports = db;*/ 
+
 app.get('/', (re, res)=> {
 	return res.json("from server");
 })
 app.get('/users', (req, res)=> {
 	const sql="select from citizen";
 	db.query(sql, (err, data)=>;{
-		if (err) return res.json(err);
+		if (err) {
+			return res.json(err);
+		}
 	return res.json(data);
-})
-})
-app.listen(8080, ()=> {
-	console.log("listening");
+});
+});
+const port =process.env.PORT || 8080;
+app.listen(PORT, () =>{
+	console.log("Listening on port", PORT);
+});
 })
