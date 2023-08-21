@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
   host: "localhost",         
   user: 'root',
   password: '',
-  database: 'q-phela_database'
+  database: 'q_phela_database'
 });
 
 // Connecting to MySQL
