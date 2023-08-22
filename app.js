@@ -50,9 +50,9 @@ const connection = mysql.createConnection({
   host: "localhost",         
   user: 'root',
   password: '',
-  database: 'q_phela_database'
+  database: 'init'
 });
-const PORT=8003;
+const PORT=8001;
 app.listen(PORT, () => {
 	console.log('SERVER :http://localhost:${PORT}');
 connection.connect((err)=>{
@@ -68,3 +68,4 @@ app.use("/all", (req,res)=>{
     
 })
 })
+
