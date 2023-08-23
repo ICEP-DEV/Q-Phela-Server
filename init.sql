@@ -22,7 +22,7 @@ CREATE TABLE location (
 CREATE TABLE Report (
     report_id INT PRIMARY KEY AUTO_INCREMENT,
     incident_type VARCHAR(255) NOT NULL,
-    description TEXT,
+    rep_description TEXT,
     date DATE,
     location_id INT,
     FOREIGN KEY (location_id) REFERENCES location(location_id),
@@ -31,11 +31,14 @@ CREATE TABLE Report (
 );
 -- Trip table
 CREATE TABLE trip (
+trip_description TEXT,
     trip_id INT PRIMARY KEY AUTO_INCREMENT,
     location_id INT,
     FOREIGN KEY (location_id) REFERENCES location(location_id),
     citizen_id INT,
-    FOREIGN KEY (citizen_id) REFERENCES citizen(citizen_id)
+    FOREIGN KEY (citizen_id) REFERENCES citizen(citizen_id),
+	date DATE,
+	
 );
 -- Alert table
 CREATE TABLE alerts (
