@@ -3,11 +3,12 @@ CREATE TABLE citizen (
     citizen_id INT PRIMARY KEY AUTO_INCREMENT,
     Citizen_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    cellphone VARCHAR(15) NOT NULL;
 );
-INSERT INTO citizen (citizen_name, email, password)
-VALUES ('citizen1', 'user1@example.com', 'password1'),
-       ('citizen2', 'user2@example.com', 'password2');
+INSERT INTO citizen (citizen_name, cellphone, email, password)
+VALUES ('citizen1', 'user1@example.com','0663570148' 'password1'),
+       ('citizen2', 'user2@example.com', '0663570148', 'password2');
 
 -- Location table
 CREATE TABLE location (
