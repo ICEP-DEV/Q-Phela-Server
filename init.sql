@@ -6,9 +6,9 @@ CREATE TABLE citizen (
     password VARCHAR(255) NOT NULL,
     cellphone VARCHAR(15) NOT NULL;
 );
-INSERT INTO citizen (citizen_name, cellphone, email, password)
-VALUES ('citizen1', 'user1@example.com','0663570148' 'password1'),
-       ('citizen2', 'user2@example.com', '0663570148', 'password2');
+INSERT INTO citizen (Citizen_name, email, password, cellphone)
+VALUES ('citizen1', 'citizen1@example.com', 'password1', '123-456-7890'),
+       ('citizen2', 'citizen2@example.com', 'password2', '987-654-3210');
 
 -- Location table
 CREATE TABLE location (
@@ -37,7 +37,7 @@ trip_description TEXT,
     FOREIGN KEY (location_id) REFERENCES location(location_id),
     citizen_id INT,
     FOREIGN KEY (citizen_id) REFERENCES citizen(citizen_id),
-	date DATE,
+	date DATE
 	
 );
 -- Alert table
