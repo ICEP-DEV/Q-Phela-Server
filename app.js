@@ -1,12 +1,12 @@
 /*const express = require('express');
 const mysql = require('mysql');
 
-// MySQL Connection Configuration
-const db = mysql.createConnection({
-  host: "localhost",         // Replace with the actual host if hosted remotely
-  user: "root",
-  password: "",
-  database: "q-phela database"
+const app = express();
+const connection = mysql.createConnection({
+  host: "localhost",         
+  user: 'root',
+  password: '',
+  database: 'q_phela_database'
 });
 
 // Connecting to MySQL
