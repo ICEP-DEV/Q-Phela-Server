@@ -20,5 +20,17 @@ const location = sequelize.define('location', {
     allowNull: false,
   },
 });
+// associations
+location.associate = (models) => {
+    location.hasMany(models.report, {
+      foreignKey: 'location_id',
+      as: 'reports',//alias
+    });
+    location.hasMany(models.trip, {
+      foreignKey: 'location_id',
+      as: 'trip',
+    });
+    
+  };
 
 module.exports = location;
