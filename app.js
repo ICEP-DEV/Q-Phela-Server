@@ -69,3 +69,29 @@ app.use("/all", (req,res)=>{
 })
 })
 
+/*const express = require('express');
+const app = express();
+
+const userRoutes = require('./routes/userRoutes');
+const locationRoutes = require('./routes/locationRoutes');
+const reportRoutes = require('./routes/reportRoutes');
+const tripRoutes = require('./routes/tripRoutes');
+const alertRoutes = require('./routes/alertRoutes');
+const safetyTipRoutes = require('./routes/safetyTipRoutes');
+const routeRecommendationRoutes = require('./routes/routeRecommendationRoutes');
+
+app.use('/users', userRoutes);
+app.use('/locations', locationRoutes);
+app.use('/reports', reportRoutes);
+app.use('/trips', tripRoutes);
+app.use('/alerts', alertRoutes);
+app.use('/safetytips', safetyTipRoutes);
+app.use('/routerecommendations', routeRecommendationRoutes);
+
+// ... other middleware and server setup ...
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+*/
