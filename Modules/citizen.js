@@ -22,7 +22,7 @@ const Citizen = sequelize.define('Citizen', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  cellphone: {
+  contact_number: {
     type: DataTypes.STRING,
     allowNull: false,
   },
