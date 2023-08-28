@@ -26,6 +26,15 @@ const Citizen = sequelize.define('Citizen', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-});
 
-module.exports = Citizen;
+});
+// Associations
+citizen.associate = (models) => {
+  citizen.hasMany(models.report, {
+    foreignKey: 'citizen_id',
+    as: 'reports',
+  });
+  
+};
+
+module.exports = citizen;
