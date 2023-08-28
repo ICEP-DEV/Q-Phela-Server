@@ -18,7 +18,7 @@ CREATE TABLE location (
 );
 
 -- Report table
-CREATE TABLE Report (
+CREATE TABLE report (
     report_id INT PRIMARY KEY AUTO_INCREMENT,
     incident_type VARCHAR(255) NOT NULL,
     rep_description TEXT,
