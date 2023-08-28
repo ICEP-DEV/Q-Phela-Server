@@ -5,7 +5,7 @@ const db = mysql.createConnection({
   host: "localhost",         // Replace with the actual host if hosted remotely
   user: "root",
   password: "",
-  database: "q-phela database"
+  database: "qpheladb"
 });
 
 // Connecting to MySQL
