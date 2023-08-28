@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Replace with your database configuration
+const sequelize = require('../config/user.js'); 
 
 const trip = sequelize.define('trip', {
   trip_id: {
@@ -27,4 +27,4 @@ trip.associate = (models) => {
     });
 
   };
-module.exports = Trip;
+module.exports = trip;
