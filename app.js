@@ -68,27 +68,26 @@ app.use("/all", (req,res)=>{
     
 })
 })
-
+// middleware setup
 /*const express = require('express');
 const app = express();
 
-const userRoutes = require('./routes/userRoutes');
+const citizenRoutes = require('./routes/citizenRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const safetyTipRoutes = require('./routes/safetyTipRoutes');
-const routeRecommendationRoutes = require('./routes/routeRecommendationRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 
-app.use('/users', userRoutes);
+app.use('/users', citizenRoutes);
 app.use('/locations', locationRoutes);
 app.use('/reports', reportRoutes);
 app.use('/trips', tripRoutes);
 app.use('/alerts', alertRoutes);
 app.use('/safetytips', safetyTipRoutes);
-app.use('/routerecommendations', routeRecommendationRoutes);
+app.use('/routerecommendations', recommendationRoutes);
 
-// ... other middleware and server setup ...
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
