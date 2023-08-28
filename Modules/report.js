@@ -42,4 +42,4 @@ report.associate = (models) => {
     
   };
 
-module.exports = Report;
+module.exports = report;
