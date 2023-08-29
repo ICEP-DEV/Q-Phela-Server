@@ -5,7 +5,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://q-phela-10b6a-default-rtdb.firebaseio.com',
 
-  ' ,
+  
 
   
 
