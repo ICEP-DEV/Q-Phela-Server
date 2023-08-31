@@ -68,8 +68,8 @@ const loginCitizen = async (req, res) => {
 
 
 
-module.exports = {
+module.exports = {//conFunct
   registerCitizen,
   loginCitizen,
-  // Add other controller functions here.
+  
 };
