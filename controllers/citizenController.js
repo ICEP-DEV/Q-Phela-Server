@@ -56,7 +56,7 @@ const loginCitizen = async (req, res) => {
     }
 
     // a JWT token 
-    const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id },/* unfinished*/, { expiresIn: '1h' });
 
     // Send token and they should respond
     return res.status(200).json({ token, user });
