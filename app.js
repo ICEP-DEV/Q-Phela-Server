@@ -1,3 +1,6 @@
+const  express = require("express");
+const app = express();
+module.exports = app;
 const mysql = require('mysql2');
 
 // MySQL Connection Configuration
