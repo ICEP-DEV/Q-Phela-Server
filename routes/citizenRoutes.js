@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const citizenController = require('../controllers/citizenController');
+
 router.post('/register', citizenController.register);
 router.post('/login', citizenController.login);
 
-// Profile route #requires authenticate
-router.get('/profile', citizenController.getCitizenProfile);
+// Profile route i've authenticated
+router.get('/profile', authenticate, citizenController.getCitizenProfile);
 
-// Update Profile route #requires authenticate
-router.put('/profile', citizenController.updateCitizenProfile);
+// Update Profile route i've authenticated
+router.put('/profile', authenticate, citizenController.updateCitizenProfile);
 
 // Deletion of Account 
-router.delete('/:citizen_id', citizenController.deleteCitizenAccount);
+router.delete('/:citizen_id', authenticate, authenticate, citizenController.deleteCitizenAccount);
 
 module.exports = router;

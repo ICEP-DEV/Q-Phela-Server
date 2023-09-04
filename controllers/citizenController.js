@@ -1,6 +1,6 @@
 //Function of CitizenS
 
-const citizen = require('../modules/citizen'); 
+const citizen = require('../Modules/citizen'); 
 const bcrypt = require('bcrypt'); // encrpt,hashing and validation
 const jwt = require('jsonwebtoken'); //JWT tokens
 
@@ -22,8 +22,8 @@ const registerCitizen = async (req, res) => {
     // Create a new user record
     const newCitizen = await citizen.create({ username, email, password: hashedPassword });
 
-    // Generate a JWT token for the user
-   const token = jwt.sign({ citizen_id: 123}, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Generate a JWT token for the citizen
+   const token = jwt.sign({ citizen_id: newCitizen.citizen_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send the token and user data in the response
     return res.status(201).json({ citizen: newCitizen, token });
@@ -40,7 +40,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Find the Citizen by email
-    const user = await user.findOne({ where: { email } });
+    const user = await citizen.findOne({ where: { email } });
 
     // If they dont exist give error messeg
     if (!user) {
@@ -57,7 +57,7 @@ const login = async (req, res) => {
 //const token = jwt.sign({ citizen_id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // a JWT token 
-    const token = jwt.sign({ citizen_id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ citizen_id: user.citizen_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send token and they should respond
     return res.status(200).json({ token, user });

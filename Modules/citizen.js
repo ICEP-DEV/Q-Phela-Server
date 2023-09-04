@@ -9,7 +9,7 @@ const Citizen = sequelize.define('Citizen', {
     primaryKey: true,
     autoIncrement: true, 
   },
-  Citizen_name: {
+  citizen_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
