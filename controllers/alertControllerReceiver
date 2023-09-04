@@ -1,5 +1,6 @@
 const fsp = require('fs').promises;
 const fs = require('fs');
+const calculateDistance = require('../utilities/calculateDistance');
 
 exports.getAnalytics = async(req, req, next) =>{
     const {ip} = req.query;
