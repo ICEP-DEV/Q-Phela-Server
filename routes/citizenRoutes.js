@@ -12,6 +12,6 @@ router.get('/profile', authenticate, citizenController.getCitizenProfile);
 router.put('/profile', authenticate, citizenController.updateCitizenProfile);
 
 // Deletion of Account 
-router.delete('/:citizen_id', authenticate, authenticate, citizenController.deleteCitizenAccount);
+router.delete('/:citizen_id', authenticate, citizenController.deleteCitizenAccount);
 
 module.exports = router;
