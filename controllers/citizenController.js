@@ -69,7 +69,7 @@ const login = async (req, res) => {
 
 
 
-module.exports = {//conFunct
+module.exports = { //conFunct
   registerCitizen,
   login,
   
