@@ -1,4 +1,4 @@
-//Function of CtizenS
+//Function of CitizenS
 
 const citizen = require('../modules/citizen'); 
 const bcrypt = require('bcrypt'); // encrpt,hashing and validation
@@ -23,10 +23,10 @@ const registerCitizen = async (req, res) => {
     const newCitizen = await citizen.create({ username, email, password: hashedPassword });
 
     // Generate a JWT token for the user
-    const token = jwt.sign({ citizen_id: newCitizen.id }, 'your-secret-key', { expiresIn: '1h' });
+   const token = jwt.sign({ citizen_id: 123}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send the token and user data in the response
-    return res.status(201).json({ token, citizen: newCitizen });
+    return res.status(201).json({ citizen: newCitizen, token });
   } catch (error) {
     console.error('Error registering user:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -34,7 +34,7 @@ const registerCitizen = async (req, res) => {
 };
 
 // Citizen Login
-const loginCitizen = async (req, res) => {
+const login = async (req, res) => {
   try {
     // Extract user data from the request body
     const { email, password } = req.body;
@@ -54,9 +54,10 @@ const loginCitizen = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
+//const token = jwt.sign({ citizen_id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // a JWT token 
-    const token = jwt.sign({ userId: user.id },/* unfinished*/, { expiresIn: '1h' });
+    const token = jwt.sign({ citizen_id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send token and they should respond
     return res.status(200).json({ token, user });
@@ -70,6 +71,6 @@ const loginCitizen = async (req, res) => {
 
 module.exports = {//conFunct
   registerCitizen,
-  loginCitizen,
+  login,
   
 };
