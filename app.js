@@ -44,22 +44,24 @@ app.listen(PORT, () => {
 });*/
 const express = require('express');
 const mysql = require('mysql');
-
+const citizenRoutes = require('./routes/citizenRoutes');
 const app = express();
 const connection = mysql.createConnection({
   host: "localhost",         
   user: 'root',
   password: '',
-  database: 'init'
+  database: 'q_pheladb'
 });
+
+
 const PORT=8001;
 app.listen(PORT, () => {
-	console.log('SERVER :http://localhost:${PORT}');
+	console.log(`SERVER :http://localhost:${PORT}`);
 connection.connect((err)=>{
   if(err) throw err;
   console.log("DATABASE CONNECTED");
 })
-})
+})/*
 app.use("/all", (req,res)=>{
   const query='select from citizen';
 	connection.query(query, (err, result) => {
@@ -67,7 +69,12 @@ app.use("/all", (req,res)=>{
     res.send(result)
     
 })
-})
+})*/
+module.exports = {
+  connection,
+
+
+};
 // middleware setup
 /*const express = require('express');
 const app = express();
