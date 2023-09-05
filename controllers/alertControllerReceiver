@@ -30,5 +30,5 @@ for(let i =0; i < coordinatesArray.length; i++){
     let distance = calculateDistance(coordinatesArray[i], coordinatesArray[i + 1]);
     totalLength += distance;
 }
-res.status(200).json({distance:totalLength})
+res.status(200).json({distance: totalLength})
 };

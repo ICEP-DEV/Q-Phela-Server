@@ -3,6 +3,11 @@ const app = express();
 module.exports = app;
 const mysql = require('mysql2');
 
+
+const corsOptions = {
+  "origin": "*",
+  optionSuccessStatus: 200
+}
 // MySQL Connection Configuration
 const db = mysql.createConnection({
   host: "localhost",         // Replace with the actual host if hosted remotely
@@ -21,4 +26,6 @@ db.connect(err => {
 });
 
 
+
 module.exports = db;
+module.exports = app;
