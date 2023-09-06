@@ -1,9 +1,9 @@
 // model Citizen.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/user.js');
+const sequelize = require('../config/app.js');
 
-const Citizen = sequelize.define('Citizen', {
+const citizen = sequelize.define('citizen', {
   citizen_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -29,8 +29,8 @@ const Citizen = sequelize.define('Citizen', {
 
 });
 // Associations
-citizen.associate = (models) => {
-  citizen.hasMany(models.report, {
+Citizen.associate = (models) => {
+  Citizen.hasMany(models.report, {
     foreignKey: 'citizen_id',
     as: 'reports',
   });
