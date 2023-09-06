@@ -44,7 +44,7 @@ app.listen(PORT, () => {
 });*/
 const express = require('express');
 const mysql = require('mysql');
-const citizenRoutes = require('./routes/citizenRoutes');
+const citizenRoutes = require('../routes/citizenRoutes');
 const app = express();
 const connection = mysql.createConnection({
   host: "localhost",         

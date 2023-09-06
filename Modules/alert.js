@@ -16,7 +16,7 @@ const alert = sequelize.define('alert', {
 });
 
 // relationship
-alert.associate = (models) => {//define
+alert.associate = (models) => { //define
   alert.belongsTo(models.location, {
     foreignKey: 'location_id',
     as: 'location',
