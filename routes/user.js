@@ -43,7 +43,7 @@ app.post('/register', (req, res) => {
     app.post('/login', (req, res) => {
         const { username, password } = req.body;
       
-        // Retrieve the user from the MySQL database
+        // Retrieve the user from the database
         const sql = 'SELECT * FROM users WHERE username = ?';
         db.query(sql, [username], (err, results) => {
           if (err) {
