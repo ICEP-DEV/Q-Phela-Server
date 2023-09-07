@@ -2,9 +2,10 @@
   "name": "q-phela-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "citizenRoutes.js",
+
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon citizenRoutes.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

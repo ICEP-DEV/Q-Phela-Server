@@ -1,7 +1,7 @@
 // model Citizen.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/app.js');
+const sequelize = require('../app');
 
 const citizen = sequelize.define('citizen', {
   citizen_id: {
