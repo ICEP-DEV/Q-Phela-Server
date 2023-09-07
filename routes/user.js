@@ -41,11 +41,13 @@ app.post('/register', (req, res) => {
     //});
 
     app.post('/login', (req, res) => {
-        const { username, password } = req.body;
-      
-        // Retrieve the user from the database
-        const sql = 'SELECT * FROM users WHERE username = ?';
-        db.query(sql, [username], (err, results) => {
+        
+console.log(req.body)
+        if (!req.body.email || !req.body.password) {
+          return res.status(400).json({ message: 'Username and password are required' });
+        }
+        const sql = 'SELECT * FROM citizen WHERE email = ?';
+        db.query(sql, [req.body.email], (err, results) => {
           if (err) {
             console.error(err);
             return res.status(500).json({ message: 'Internal server error' });
@@ -72,13 +74,3 @@ app.post('/register', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
-/* Profile route i've authenticated
-router.get('/profile', authenticate, citizenController.getCitizenProfile);
-
-// Update Profile route i've authenticated
-router.put('/profile', authenticate, citizenController.updateCitizenProfile);
-
-// Deletion of Account 
-router.delete('/:citizen_id', authenticate, citizenController.deleteCitizenAccount);
-
-module.exports = router;*/
