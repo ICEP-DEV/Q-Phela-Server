@@ -1,8 +1,9 @@
-const express = require('express');
+/*const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
+const axios = require('axios');
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -16,8 +17,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+
+
+
 // Create a new report
 app.post('/reports', (req, res) => {
+
+
   const { incident_type, rep_description, date, location_id, citizen_id } = req.body;
   if (!incident_type || !rep_description || !date || !location_id || !citizen_id) {
     return res.status(400).json({ message: 'All fields are required' });
@@ -42,6 +48,8 @@ app.post('/reports', (req, res) => {
     res.status(201).json({ message: 'Report created successfully', report: newReport });
   });
 });
+
+
 
 // Get all reports
 app.get('/reports', (req, res) => {
@@ -105,6 +113,126 @@ app.delete('/reports/:report_id', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});*/
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mysql = require('mysql');
+const axios = require('axios');
+
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "q_pheladb"
+});
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(cors());
+
+// Function to geocode a location name and store the coordinates
+async function geocodeLocation(locationName) {
+  const geocodingEndpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+    locationName
+  )}.json`;
+
+  try {
+    const response = await axios.get(geocodingEndpoint);
+
+    if (response.status === 200 && response.data.features.length > 0) {
+      const coordinates = response.data.features[0].center;
+      return {
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+      };
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Create a new report with location data
+app.post('/reports', async (req, res) => {
+  const {
+    incident_type,
+    rep_description,
+    date,
+    location_name,
+    citizen_id,
+  } = req.body;
+
+  if (
+    !incident_type ||
+    !rep_description ||
+    !date ||
+    !location_name ||
+    !citizen_id
+  ) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  // Geocode the location name to get coordinates
+  const locationCoordinates = await geocodeLocation(location_name);
+
+  if (!locationCoordinates) {
+    return res.status(500).json({ message: 'Failed to geocode location' });
+  }
+
+  // Insert the location data into the 'location' table
+  const insertLocationSql =
+    'INSERT INTO location (location_name, latitude, longitude) VALUES (?, ?, ?)';
+  db.query(
+    insertLocationSql,
+    [
+      location_name,
+      locationCoordinates.latitude,
+      locationCoordinates.longitude,
+    ],
+    (err, locationResult) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Failed to create a location' });
+      }
+
+      const locationId = locationResult.insertId;
+
+      // Insert the report with the obtained location_id
+      const insertReportSql =
+        'INSERT INTO report (incident_type, rep_description, date, location_id, citizen_id) VALUES (?, ?, ?, ?, ?)';
+      db.query(
+        insertReportSql,
+        [incident_type, rep_description, date, locationId, citizen_id],
+        (err, reportResult) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Failed to create a report' });
+          }
+
+          const newReport = {
+            report_id: reportResult.insertId,
+            incident_type,
+            rep_description,
+            date,
+            location_id: locationId,
+            citizen_id,
+          };
+
+          res.status(201).json({
+            message: 'Report created successfully',
+            report: newReport,
+          });
+        }
+      );
+    }
+  );
+});
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
