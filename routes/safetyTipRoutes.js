@@ -18,7 +18,8 @@ app.use(bodyParser.json());
 app.use(cors());
 //you get all of them
 app.get('/safety_tip', (req, res) => {
-    const sql = 'SELECT * FROM safety_tips';
+    const sql = 'SELECT st.*, c.citizen_name AS citizen_name FROM safety_tips st JOIN citizen c ON st.citizen_id = c.citizen_id';
+    //'SELECT * FROM safety_tips';
     db.query(sql, (err, results) => {
         if (err) {
             console.error(err);
@@ -30,7 +31,8 @@ app.get('/safety_tip', (req, res) => {
 //retrieve per tip
 app.get('/safety_tip/:tip_id', (req, res) => {
     const tip_id= req.params.tip_id;                                                
-    const sql = 'SELECT * FROM safety_tips WHERE tip_id = ?';
+    const sql =  'SELECT st.*, c.citizen_name AS citizen_name FROM safety_tips st JOIN citizen c ON st.citizen_id = c.citizen_id WHERE st.tip_id = ?';
+  //'SELECT * FROM safety_tips WHERE tip_id = ?';
     db.query(sql, [tip_id], (err, results) => {
         if (err) {
             console.error(err);                                                                                            
