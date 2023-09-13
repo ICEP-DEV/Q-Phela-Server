@@ -121,7 +121,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
 const axios = require('axios');
-
+//const axiosRetry = require('axios-retry');
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -133,12 +133,19 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+/*//to be removed
+axiosRetry(axios, {
+  retries: 5, // Number of retry attempts
+  retryDelay: axiosRetry.exponentialDelay, // Retry delay strategy
+  shouldResetTimeout: true, // Reset the timeout on retries
+});*/
 
 // Function to geocode a location name and store the coordinates
 async function geocodeLocation(locationName) {
+  const mapboxAccessToken = 'pk.eyJ1Ijoicm9uZ3dhIiwiYSI6ImNsbWZ5Y3FjdjB3MXEzZXJ5ejRuMzRsMm4ifQ.xGKpPwenWvNRPkjmQBe6Jw';
   const geocodingEndpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     locationName
-  )}.json`;
+  )}.json?access_token=${mapboxAccessToken}`;
 
   try {
     const response = await axios.get(geocodingEndpoint);
@@ -161,23 +168,21 @@ app.post('/reports', async (req, res) => {
   const {
     incident_type,
     rep_description,
-    date,
-    location_name,
+    name,
     citizen_id,
   } = req.body;
 
   if (
     !incident_type ||
     !rep_description ||
-    !date ||
-    !location_name ||
+    !name ||
     !citizen_id
   ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
   // Geocode the location name to get coordinates
-  const locationCoordinates = await geocodeLocation(location_name);
+  const locationCoordinates = await geocodeLocation(name);
 
   if (!locationCoordinates) {
     return res.status(500).json({ message: 'Failed to geocode location' });
@@ -185,11 +190,11 @@ app.post('/reports', async (req, res) => {
 
   // Insert the location data into the 'location' table
   const insertLocationSql =
-    'INSERT INTO location (location_name, latitude, longitude) VALUES (?, ?, ?)';
+    'INSERT INTO location (name, latitude, longitude) VALUES (?, ?, ?)';
   db.query(
     insertLocationSql,
     [
-      location_name,
+      name,
       locationCoordinates.latitude,
       locationCoordinates.longitude,
     ],
@@ -203,10 +208,10 @@ app.post('/reports', async (req, res) => {
 
       // Insert the report with the obtained location_id
       const insertReportSql =
-        'INSERT INTO report (incident_type, rep_description, date, location_id, citizen_id) VALUES (?, ?, ?, ?, ?)';
+        'INSERT INTO report (incident_type, rep_description, location_id, citizen_id) VALUES (?, ?, ?, ?)';
       db.query(
         insertReportSql,
-        [incident_type, rep_description, date, locationId, citizen_id],
+        [incident_type, rep_description, locationId, citizen_id],
         (err, reportResult) => {
           if (err) {
             console.error(err);
@@ -217,7 +222,6 @@ app.post('/reports', async (req, res) => {
             report_id: reportResult.insertId,
             incident_type,
             rep_description,
-            date,
             location_id: locationId,
             citizen_id,
           };
@@ -232,7 +236,7 @@ app.post('/reports', async (req, res) => {
   );
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
