@@ -30,12 +30,11 @@ app.post('/admin/login', (req, res) => {
       return res.status(401).json({ message: 'Invalid login credentials' });
     }
 
-    // Admin successfully logged in
     res.status(200).json({ message: 'Admin logged in successfully' });
   });
 });
  
-
+//API endpoint to get reorts from the reports table
 app.get('/admin/reports', (req, res) => {
     const sql = `
         SELECT
@@ -69,6 +68,46 @@ app.get('/admin/reports', (req, res) => {
 });
 
 
+
+// API endpoint to get tips for admin
+app.get('/admin/tips', (req, res) => {
+
+
+  const getTipsQuery = 'SELECT * FROM safety_tips';
+
+  db.query(getTipsQuery, (error, results) => {
+    if (error) {
+      console.error('Error fetching tips:', error);
+      return res.status(500).json({ message: 'Failed to fetch tips' });
+    }
+
+
+    const safety_tips = results;
+
+    res.status(200).json({ safety_tips });
+  });
+});
+
+
+// API endpoint to delete a tip using tips_id
+app.delete('/admin/tips/:id', (req, res) => {
+  const tip_id = req.params.id;
+
+  const deleteTipQuery = 'DELETE FROM safety_tips WHERE tip_id = ?';
+
+  db.query(deleteTipQuery, [tip_id], (error, results) => {
+    if (error) {
+      console.error('Error deleting tip:', error);
+      return res.status(500).json({ message: 'Failed to delete tip' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Tip not found' });
+    }
+
+    res.status(200).json({ message: 'Tip deleted successfully' });
+  });
+});
   
  
 const PORT = process.env.PORT || 3000;
