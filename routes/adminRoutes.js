@@ -30,11 +30,12 @@ app.post('/admin/login', (req, res) => {
       return res.status(401).json({ message: 'Invalid login credentials' });
     }
 
+    // Admin successfully logged in
     res.status(200).json({ message: 'Admin logged in successfully' });
   });
 });
  
-//API endpoint to get reorts from the reports table
+
 app.get('/admin/reports', (req, res) => {
     const sql = `
         SELECT
