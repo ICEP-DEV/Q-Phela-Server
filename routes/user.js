@@ -21,30 +21,32 @@ app.use(cors());
 app.post('/register', (req, res) => {
     const { citizen_name, email, password,contact_number } = req.body;
     if (!citizen_name || !email || !password || !contact_number) {
-        return res.status(400).json({ message: 'email and password are required' });
+      console.log(51554)
+        return res.status(400).json({ message: 'email and password are required', success:false });
       } /*
       bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: 'Registration failed' });
         } */
+    console.log(req.body)
+
         const sql = 'INSERT INTO citizen (citizen_name, email, password, contact_number) VALUES (?, ?, ?, ?)';
         db.query(sql, [citizen_name, email, password, contact_number], (err, result) => {
           if (err) {
             console.error(err);
-            return res.status(500).json({ message: 'Registration failed' });
+            return res.status(500).json({ message: 'Registration failed', success:false });
           }
-    
-          res.status(201).json({ message: 'Registration successful' });
+          console.log(result)
+          res.status(201).json({ message: 'Registration successful', success:true });
         });
       });
     //});
 
     app.post('/login', (req, res) => {
-        
-console.log(req.body)
+        console.log(req.body)
         if (!req.body.email || !req.body.password) {
-          return res.status(400).json({ message: 'Username and password are required' });
+          return res.status(400).json({ message: 'Username and password are required',success:false });
         }
         const sql = 'SELECT * FROM citizen WHERE email = ?';
         db.query(sql, [req.body.email], (err, results) => {
@@ -53,8 +55,8 @@ console.log(req.body)
             return res.status(500).json({ message: 'Internal server error' });
           }
           if (results.length === 0) {
-            console.log('No user found with email:', email);
-            return res.status(401).json({ message: 'Invalid credentials' });
+            console.log('No user found with email:', req.body.email);
+            return res.status(401).json({ message: 'Invalid credentials', success:false });
           }
       
           const citizen = results[0];
@@ -62,15 +64,15 @@ console.log(req.body)
           //bcrypt.compare(password, user.password, (err, isPasswordValid) => {
             if (req.body.password !== citizen.password) {
               console.log('Password mismatch for citizen:', citizen.citizen_name);
-              return res.status(401).json({ message: 'Invalid credentials' });
+              return res.status(401).json({ message: 'Invalid credentials', success:false });
             }
         
          //   const token = jwt.sign({ citizen_id: citizen.id }, config.secretKey, { expiresIn: '1h' });
         
-            res.status(200).json({ results });
+            res.status(200).json({ results,success:true });
           });
         });
       const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-}); 
+});      
