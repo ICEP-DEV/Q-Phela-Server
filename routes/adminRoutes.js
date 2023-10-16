@@ -39,16 +39,19 @@ app.post('/admin/login', (req, res) => {
 app.get('/admin/reports', (req, res) => {
     const sql = `
         SELECT
+        r.report_id,
             r.incident_type AS "incident_type",
             r.rep_description AS "rep_description",
             c.citizen_name AS "citizen_name",
+            c.contact_number AS "contact_number",
+            c.email AS "email",
             l.latitude AS "latitude",
             l.longitude AS "longitude"
         FROM
             report r
             JOIN citizen c ON r.citizen_id = c.citizen_id
             JOIN location l ON r.location_id = l.location_id`;
-            
+           
     db.query(sql, (err, results) => {
         if (err) {
             console.error(err);
@@ -57,9 +60,12 @@ app.get('/admin/reports', (req, res) => {
 
         // Transform the response to match the desired structure
         const transformedResults = results.map(result => ({
+          report_id: result.report_id,
             incident_type: result.incident_type,
             rep_description: result.rep_description,
             citizen_name: result.citizen_name,
+            contact_number:result.contact_number,
+            email: result.email,
             latitude: result.latitude,
             longitude: result.longitude
         }));
@@ -67,6 +73,33 @@ app.get('/admin/reports', (req, res) => {
         res.status(200).json(transformedResults);
     });
 });
+
+
+app.get('/admin/reports/:report_id/contact', (req, res) => {
+  const report_id = req.params.report_id;  // Corrected parameter name
+
+  const getContactInfoQuery = `
+    SELECT c.citizen_name, c.contact_number, c.email
+    FROM report r
+    JOIN citizen c ON r.citizen_id = c.citizen_id
+    WHERE r.report_id = ?`;
+
+  db.query(getContactInfoQuery, [report_id], (error, results) => {
+    if (error) {
+      console.error('Error fetching contact info:', error);
+      return res.status(500).json({ message: 'Failed to fetch contact info' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Contact information not found' });
+    }
+
+    const contactInfo = results[0]; // Assuming there's only one matching record
+    res.status(200).json(contactInfo);
+  });
+});
+
+
 
 
 
@@ -109,7 +142,7 @@ app.delete('/admin/tips/:id', (req, res) => {
     res.status(200).json({ message: 'Tip deleted successfully' });
   });
 });
-  
+ 
  
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
