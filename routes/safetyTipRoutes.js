@@ -47,8 +47,8 @@ app.get('/safety_tip/:tip_id', (req, res) => {
 
 //add safety tip                           
 app.post('/safety_tip', (req, res) => {
-    const {  tip_description} = req.body; 
-    const citizen_id = req.user.citizen_id;
+    const {  tip_description, citizen_id} = req.body; 
+   // const tip_description = req.user.citizen_id;
     if (!tip_description || !citizen_id){
         return res.status(400).json({ message: 'Tip description,  citizen_id and location_id are required' });
     }
